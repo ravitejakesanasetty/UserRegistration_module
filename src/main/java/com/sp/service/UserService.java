@@ -19,54 +19,57 @@ public class UserService {
 	private UserRepository repo;
 
 	public Response<User> create(User user) {
-		Response<User> response=new Response<>();
+		Response<User> response = new Response<>();
 		response.setPayLoad(repo.save(user));
 		response.setStatus(HttpStatus.OK);
-				return response;
+		return response;
 	}
 
 	public Response<User> getUserById(Integer id) throws UserNotFound {
-		Response<User> response=new Response<>();
-		Optional<User> user=repo.findById(id);
-		if(!user.isPresent()) {
+		Response<User> response = new Response<>();
+		Optional<User> user = repo.findById(id);
+
+		if (!user.isPresent()) {
 			throw new UserNotFound("User not found with this Id");
-		}
-		else {
-			
+		} else {
+
 			response.setPayLoad1(user);
 			response.setStatus(HttpStatus.OK);
-			
+
 		}
 		return response;
 	}
 
 	public Response<List<User>> getUsers() {
-		Response<List<User>> response=new Response<>();
+		Response<List<User>> response = new Response<>();
 		response.setPayLoad(repo.findAll());
 		response.setStatus(HttpStatus.OK);
-		
+
 		return response;
 	}
 
-	public Response<User> updateUserById(Integer id, User user) {
-		user.setUserId(id);
-		Response<User> response=new Response<>();
-		response.setPayLoad(repo.save(user));
-		response.setStatus(HttpStatus.OK);
-				return response;
+	public Response<User> updateUserById(Integer id, User user) throws UserNotFound {
+		Response<User> response = new Response<>();
+		if (repo.findById(id).isPresent()) {
+			user.setUserId(id);
+			response.setPayLoad(repo.save(user));
+			response.setStatus(HttpStatus.OK);
+		} else {
+			throw new UserNotFound("User not found with this Id");
+		}
+		return response;
 
 	}
 
 	public Response deleteUser(Integer id) {
-		Response response=new Response<>();
-    if(repo.findById(id).isPresent())
-    {
-    	repo.deleteById(id);
-    	
-		response.setStatus(HttpStatus.OK);
-	     response.setPayLoad("User Data Deleted successfully");
-    }
-	return response;
+		Response response = new Response<>();
+		if (repo.findById(id).isPresent()) {
+			repo.deleteById(id);
+
+			response.setStatus(HttpStatus.OK);
+			response.setPayLoad("User Data Deleted successfully");
+		}
+		return response;
 	}
-	
+
 }
