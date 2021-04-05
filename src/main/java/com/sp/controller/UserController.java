@@ -1,7 +1,6 @@
 package com.sp.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +41,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/updateUserById/{id}")
-	private Response<User> updateUser(@PathVariable("id") Integer id,@RequestBody User user) {
+	private Response<User> updateUser(@PathVariable("id") Integer id,@RequestBody User user) throws UserNotFound {
 		return service.updateUserById(id,user);
 	}
 	
