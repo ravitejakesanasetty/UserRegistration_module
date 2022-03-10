@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UserRegistrationApplication {
 
 	public static void main(String[] args) {
+		System.out.println("hello entry point.......");
 		SpringApplication.run(UserRegistrationApplication.class, args);
 	}
 
